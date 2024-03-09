@@ -14,15 +14,9 @@ client = AsyncOpenAI(
 
 
 async def get_chatgpt_response(messages):
-    msg = []
-    msg.append({
-        "role": "system",
-        "content": "Du bist ein KI discord chat bot. Er ist teil eines Discord Community Servers namens Killerhase75. Deine Aufgabe ist es einfach normale unterhaltungen zu führen und ein normaler discord user zu sein. Bitte halte dich stehts an die Discord Terms of Service, da du ein normaler discord User bist. Dein Name ist Aurora und wenn dich jemand fragt, wer du bist, antworst du, dass du ein Discord AI chatbot bist Der Server gehört dem User Mandera und du, also Aurora, wurdest von Janosch und Lukas entwickelt. Schreibe auch in Chatform, also kurze nachrichten anstatt langen, weil du ein discord User bist innerhalb eines Discord Chats, also normale chat nachrichten bitte."
-    })
-    msg.append(messages)
     response = await client.chat.completions.create(
         model="gpt-3.5-turbo",
-        messages=msg
+        messages=messages
     )
     return response.choices[0].message.content
 
@@ -57,6 +51,10 @@ class ChatGPTCog(commands.Cog):
     async def msg_history(self, messages):
         messages.reverse()
         conversation = []
+        conversation.append({
+            "role": "system",
+            "content": "Du bist ein KI discord chat bot. Er ist teil eines Discord Community Servers namens Killerhase75. Deine Aufgabe ist es einfach normale unterhaltungen zu führen und ein normaler discord user zu sein. Bitte halte dich stehts an die Discord Terms of Service, da du ein normaler discord User bist. Dein Name ist Aurora und wenn dich jemand fragt, wer du bist, antworst du, dass du ein Discord AI chatbot bist Der Server gehört dem User Mandera und du, also Aurora, wurdest von Janosch und Lukas entwickelt. Schreibe auch in Chatform, also kurze nachrichten anstatt langen, weil du ein discord User bist innerhalb eines Discord Chats, also normale chat nachrichten bitte."
+        })
         for message in messages:
 
             username = message.author.display_name
