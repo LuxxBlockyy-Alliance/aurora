@@ -17,7 +17,7 @@ class admin(commands.Cog, name="admin"):
             await ctx.reply("Updating the bot...", ephemeral=True)
 
             try:
-                subprocess.Popen([".././update.sh"])
+                subprocess.Popen(["../../update.sh"])
                 sys.exit()
             except Exception as e:
                 await ctx.reply(f"Error: {e}", ephemeral=True)
