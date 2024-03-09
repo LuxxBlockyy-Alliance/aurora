@@ -15,7 +15,7 @@ client = AsyncOpenAI(
 
 async def get_chatgpt_response(messages):
     response = await client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-3.5-turbo-0125",
         messages=messages
     )
     return response.choices[0].message.content
@@ -29,7 +29,7 @@ class ChatGPTCog(commands.Cog):
     async def on_message(self, message):
         if not (message.author.bot or message.guild is None):
             if (message.guild is not None and message.channel.id in [1212130792734724188, 1215747431338344458]) or (self.bot.user.mentioned_in(message) and message.channel.id in [1097205771667779596, 1192581358812405920, 1169318690236416152, 1193639243713618011, 1193610504783003709, 1191565875992592564]):
-                messages = await self.msg_history(await message.channel.history(limit=10).flatten())
+                messages = await self.msg_history(await message.channel.history(limit=7).flatten())
 
                 try:
                     response = await get_chatgpt_response(messages)
