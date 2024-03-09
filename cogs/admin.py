@@ -11,9 +11,10 @@ class admin(commands.Cog, name="admin"):
 
     @discord.slash_command()
     async def update(self, ctx) -> None:
-        if ctx.author.id in ["675779525262573589", "1112646094179016846"]:
+        print("bis hierhin kommt der bot")
+        if ctx.author.id in ["675779525262573589", "1112646094179016846"]: # 675779525262573589
             """ Updating the bot. """
-
+            print("user id is working")
             await ctx.reply("Updating the bot...", ephemeral=True)
 
             try:
@@ -21,6 +22,8 @@ class admin(commands.Cog, name="admin"):
                 sys.exit()
             except Exception as e:
                 await ctx.reply(f"Error: {e}", ephemeral=True)
+        else:
+            await ctx.reply(f"UserId: {ctx.author.id}")
 
 
 def setup(bot):
