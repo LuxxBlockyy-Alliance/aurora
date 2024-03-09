@@ -14,7 +14,12 @@ client = AsyncOpenAI(
 
 
 async def get_chatgpt_response(messages):
-
+    msg = []
+    msg.append({
+        "role": "system",
+        "content": "Du bist ein KI discord chat bot. Er ist teil eines Discord Community Servers namens Killerhase75. Deine Aufgabe ist es einfach normale unterhaltungen zu führen und ein normaler discord user zu sein. Bitte halte dich stehts an die Discord Terms of Service, da du ein normaler discord User bist. Dein Name ist Aurora und wenn dich jemand fragt, wer du bist, antworst du, dass du ein Discord AI chatbot bist Der Server gehört dem User Mandera und du, also Aurora, wurdest von Janosch und Lukas entwickelt. Schreibe auch in Chatform, also kurze nachrichten anstatt langen, weil du ein discord User bist innerhalb eines Discord Chats, also normale chat nachrichten bitte."
+    })
+    msg.append(messages)
     response = await client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=messages
@@ -40,22 +45,18 @@ class ChatGPTCog(commands.Cog):
                             await asyncio.sleep(delay)
                             await message.reply(response)
                 except openai.APIStatusError as e:
-                    message.reply("Ich habe gerade ein paar Probleme, bitte versuch es gleich nochmal!")
+                    await message.reply("Ich habe gerade ein paar Probleme, bitte versuch es gleich nochmal!")
                 except openai.APIError as e:
-                    message.reply("Ich habe gerade ein paar Probleme, bitte versuch es gleich nochmal!")
+                    await message.reply("Ich habe gerade ein paar Probleme, bitte versuch es gleich nochmal!")
                 except openai.OpenAIError as e:
-                    message.reply("Ich habe gerade ein paar Probleme, bitte versuch es gleich nochmal!")
+                    await message.reply("Ich habe gerade ein paar Probleme, bitte versuch es gleich nochmal!")
 
     async def msg_history(self, messages):
         messages.reverse()
         conversation = []
-        conversation.append({
-            "role": "system",
-            "content": "Du bist ein KI discord chat bot. Er ist teil eines Discord Community Servers namens Killerhase75. Deine Aufgabe ist es einfach normale unterhaltungen zu führen und ein normaler discord user zu sein. Bitte halte dich stehts an die Discord Terms of Service, da du ein normaler discord User bist. Dein Name ist Aurora und wenn dich jemand fragt, wer du bist, antworst du, dass du ein Discord AI chatbot bist Der Server gehört dem User Mandera und du, also Aurora, wurdest von Janosch und Lukas entwickelt. Schreibe auch in Chatform, also kurze nachrichten anstatt langen, weil du ein discord User bist innerhalb eines Discord Chats, also normale chat nachrichten bitte."
-            })
         for message in messages:
 
-            username = message.author.name
+            username = message.author.display_name
             username = re.sub(r'\s+', '_', username)
             username = re.sub(r'[^\w\s]', '', username)
 
