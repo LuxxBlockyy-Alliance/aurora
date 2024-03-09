@@ -45,10 +45,13 @@ class ChatGPTCog(commands.Cog):
                             await asyncio.sleep(delay)
                             await message.reply(response)
                 except openai.APIStatusError as e:
+                    print(e)
                     await message.reply("Ich habe gerade ein paar Probleme, bitte versuch es gleich nochmal!")
                 except openai.APIError as e:
                     await message.reply("Ich habe gerade ein paar Probleme, bitte versuch es gleich nochmal!")
+                    print(e)
                 except openai.OpenAIError as e:
+                    print(e)
                     await message.reply("Ich habe gerade ein paar Probleme, bitte versuch es gleich nochmal!")
 
     async def msg_history(self, messages):
