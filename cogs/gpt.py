@@ -6,6 +6,8 @@ from openai import AsyncOpenAI
 import re
 import random
 import asyncio
+import unicode
+
 
 client = AsyncOpenAI(
     # This is the default and can be omitted
@@ -58,6 +60,7 @@ class ChatGPTCog(commands.Cog):
         for message in messages:
 
             username = message.author.display_name
+            username = unicode.unicode(username)
             username = re.sub(r'\s+', '_', username)
             username = re.sub(r'[^\w\s]', '', username)
 

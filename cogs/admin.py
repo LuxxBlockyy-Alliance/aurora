@@ -15,15 +15,14 @@ class admin(commands.Cog, name="admin"):
         if ctx.author.id in ["675779525262573589", "1112646094179016846"]: # 675779525262573589
             """ Updating the bot. """
             print("user id is working")
-            await ctx.reply("Updating the bot...", ephemeral=True)
-
+            await ctx.send("Updating the bot...", ephemeral=True)
             try:
                 subprocess.Popen(["../../update.sh"])
                 sys.exit()
             except Exception as e:
-                await ctx.reply(f"Error: {e}", ephemeral=True)
+                await ctx.respond(f"Error: {e}", ephemeral=True)
         else:
-            await ctx.reply(f"UserId: {ctx.author.id}")
+            await ctx.respond(f"UserId: {ctx.author.id}")
 
 
 def setup(bot):
