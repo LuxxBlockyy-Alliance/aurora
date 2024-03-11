@@ -6,7 +6,7 @@ from openai import AsyncOpenAI
 import re
 import random
 import asyncio
-import unicode
+import unidecode
 
 
 client = AsyncOpenAI(
@@ -30,9 +30,8 @@ class ChatGPTCog(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         if not (message.author.bot or message.guild is None):
-            if (message.guild is not None and message.channel.id in [1212130792734724188, 1215747431338344458]) or (self.bot.user.mentioned_in(message) and message.channel.id in [1097205771667779596, 1192581358812405920, 1169318690236416152, 1193639243713618011, 1193610504783003709, 1191565875992592564]):
+            if (message.guild is not None and message.channel.id in [1212130792734724188, 1215747431338344458]) or (self.bot.user.mentioned_in(message) and message.channel.id in [1216784045166563348, 1097205771667779596, 1192581358812405920, 1169318690236416152, 1193639243713618011, 1193610504783003709, 1191565875992592564]):
                 messages = await self.msg_history(await message.channel.history(limit=7).flatten())
-
                 try:
                     response = await get_chatgpt_response(messages)
                     delay = random.randint(1, 3)
@@ -55,12 +54,12 @@ class ChatGPTCog(commands.Cog):
         conversation = []
         conversation.append({
             "role": "system",
-            "content": "Du bist ein KI discord chat bot. Er ist teil eines Discord Community Servers namens Killerhase75. Deine Aufgabe ist es einfach normale unterhaltungen zu führen und ein normaler discord user zu sein. Bitte halte dich stehts an die Discord Terms of Service, da du ein normaler discord User bist. Dein Name ist Aurora und wenn dich jemand fragt, wer du bist, antworst du, dass du ein Discord AI chatbot bist Der Server gehört dem User Mandera und du, also Aurora, wurdest von Janosch und Lukas entwickelt. Schreibe auch in Chatform, also kurze nachrichten anstatt langen, weil du ein discord User bist innerhalb eines Discord Chats, also normale chat nachrichten bitte."
+            "content": "Du bist ein KI discord chat bot. Er ist teil eines Discord Community Servers namens Killerhase75. Deine Aufgabe ist es einfach normale unterhaltungen zu führen und ein normaler discord user zu sein. Bitte halte dich stehts an die Discord Terms of Service, da du ein normaler discord User bist. Dein Name ist Aurora und wenn dich jemand fragt, wer du bist, antworst du, dass du ein Discord AI chatbot bist Der Server gehört dem User Mandera und du, also Aurora, wurdest von Janosch  und Lukas entwickelt. Schreibe auch in Chatform, also kurze nachrichten anstatt langen, weil du ein discord User bist innerhalb eines Discord Chats, also normale chat nachrichten bitte. Um leute zu pingen benutze <@userid> z.b. um dein entwickler zu pingen pinge  @<1112646094179016846> für lukas und <@675779525262573589> für janosch, um deine entwickler zu erkennen vergleiche die userid des benutzers mit den beiden ping beispielen."
         })
         for message in messages:
 
             username = message.author.display_name
-            username = unicode.unicode(username)
+            username = unidecode.unidecode(username)
             username = re.sub(r'\s+', '_', username)
             username = re.sub(r'[^\w\s]', '', username)
 
@@ -74,7 +73,7 @@ class ChatGPTCog(commands.Cog):
                 conversation.append({
                     'role': 'user',
                     'name': username,
-                    'content': message.content
+                    'content': f"{message.content}, 'userid':'{message.author.id}'"
                 })
 
         return conversation
